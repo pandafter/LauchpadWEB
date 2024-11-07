@@ -1,0 +1,134 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background: #1a1a1a;
+  color: white;
+  margin: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.launchpad-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+  margin: 20px 0;
+}
+
+#connectMIDI {
+  font-weight: 600;
+}
+
+.pad {
+  aspect-ratio: 1;
+  border: 2px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  transition: all 0.1s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pad:hover {
+  opacity: 0.8;
+}
+
+.pad-status {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.context-menu {
+  position: fixed; /* Cambiado de absolute a fixed */
+  background: #2a2a2a;
+  border-radius: 8px;
+  padding: 8px 0;
+  min-width: 150px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.context-menu-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.2s;
+}
+
+.context-menu-item:hover {
+  background-color: #3a3a3a;
+}
+
+.context-menu-item.danger {
+  color: #ff4444;
+}
+
+.context-menu-item.info {
+  color: #4caf50;
+  font-weight: bold;
+  cursor: default;
+}
+
+.context-menu-item.info:hover {
+  background-color: transparent;
+}
+
+.controls {
+  margin: 20px 0;
+  padding: 20px;
+  background: #333;
+  border-radius: 8px;
+}
+
+button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.color-picker-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #2a2a2a;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.text-danger {
+  color: rgb(245, 43, 43);
+}
