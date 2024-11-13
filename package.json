@@ -16,5 +16,8 @@
   "license": "MIT",
   "devDependencies": {
     "live-server": "^1.2.2"
+  },
+  "dependencies": {
+    "@vercel/speed-insights": "^1.1.0"
   }
 }
