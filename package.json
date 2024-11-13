@@ -4,7 +4,7 @@
   "description": "![Version](https://img.shields.io/badge/version-1.0.0-blue.svg) ![License](https://img.shields.io/badge/license-MIT-green.svg)",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel build index.html",
+    "build": "npx parcel build index.html",
     "start": "live-server"
   },
   "keywords": [
