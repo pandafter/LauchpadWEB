@@ -1,11 +1,11 @@
 {
   "name": "lauchpadweb",
+  "private": true,
   "version": "1.0.0",
   "description": "![Version](https://img.shields.io/badge/version-1.0.0-blue.svg) ![License](https://img.shields.io/badge/license-MIT-green.svg)",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx parcel build index.html",
-    "start": "live-server"
+    "start": "live-server ./public"
   },
   "keywords": [
     "lauchpad",
@@ -15,7 +15,6 @@
   "author": "NicolasLeyva",
   "license": "MIT",
   "devDependencies": {
-    "live-server": "^1.2.2",
-    "parcel": "^2.13.0"
+    "live-server": "^1.2.2"
   }
 }
