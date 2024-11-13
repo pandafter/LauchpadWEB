@@ -122,7 +122,7 @@ class LaunchpadEmulator {
       items.unshift({
         text: `Sonido: ${pad.soundInfo.name}`,
         action: () => {},
-        className: "info"
+        className: "info",
       });
     }
 
@@ -146,7 +146,8 @@ class LaunchpadEmulator {
 
     items.forEach((item) => {
       const menuItem = document.createElement("div");
-      menuItem.className = "context-menu-item" + (item.className ? " " + item.className : "");
+      menuItem.className =
+        "context-menu-item" + (item.className ? " " + item.className : "");
       menuItem.textContent = item.text;
       menuItem.onclick = () => {
         item.action();
@@ -157,7 +158,7 @@ class LaunchpadEmulator {
 
     // Agregar el menú al DOM temporalmente para obtener sus dimensiones
     document.body.appendChild(menu);
-    
+
     // Obtener las dimensiones del menú y la ventana
     const menuRect = menu.getBoundingClientRect();
     const windowWidth = window.innerWidth;
@@ -184,7 +185,7 @@ class LaunchpadEmulator {
     // Aplicar la posición final
     menu.style.left = `${xPos}px`;
     menu.style.top = `${yPos}px`;
-}
+  }
   showColorPicker(padId) {
     const overlay = document.createElement("div");
     overlay.className = "modal-overlay";
