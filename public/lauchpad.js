@@ -59,18 +59,18 @@ class LaunchpadEmulator {
 
   createGrid() {
     const grid = document.getElementById("launchpadGrid");
-
+  
     for (let row = 0; row < 8; row++) {
       for (let col = 0; col < 8; col++) {
         const pad = document.createElement("div");
         pad.className = "pad";
-        pad.id = `${row}-${col}`; // Asignar ID basado en la posición
+        pad.id = `${row}-${col}`;
         pad.style.backgroundColor = "#333";
-
+  
         const statusIcon = document.createElement("div");
         statusIcon.className = "pad-status";
         pad.appendChild(statusIcon);
-
+  
         const padId = `${row}-${col}`;
         this.pads.set(padId, {
           element: pad,
@@ -81,16 +81,32 @@ class LaunchpadEmulator {
           imageBuffer: null,
           hasImage: false,
         });
-
+  
+        let longPressTimer;
+  
+        // Manejador para clics normales
         pad.addEventListener("click", () => this.handlePadClick(padId));
+  
+        // Manejadores para detectar presiones largas en móviles
+        pad.addEventListener("touchstart", (e) => {
+          e.preventDefault();
+          longPressTimer = setTimeout(() => {
+            this.showContextMenu(e, padId);
+          }, 500); // Tiempo para considerar como "presión larga"
+        });
+  
+        pad.addEventListener("touchend", () => clearTimeout(longPressTimer));
+        pad.addEventListener("touchcancel", () => clearTimeout(longPressTimer));
+  
         pad.addEventListener("contextmenu", (e) =>
           this.showContextMenu(e, padId)
         );
+  
         grid.appendChild(pad);
       }
     }
   }
-
+  
   setupContextMenu() {
     document.addEventListener("contextmenu", (e) => e.preventDefault());
 
