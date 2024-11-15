@@ -70,7 +70,7 @@ class LaunchpadEmulator {
         const statusIcon = document.createElement("div");
         statusIcon.className = "pad-status";
         pad.appendChild(statusIcon);
-  
+
         const padId = `${row}-${col}`;
         this.pads.set(padId, {
           element: pad,
@@ -116,92 +116,85 @@ class LaunchpadEmulator {
     });
   }
 
-  showContextMenu(event, padId) {
-    event.preventDefault();
+showContextMenu(event, padId) {
+  event.preventDefault();
 
-    const existingMenu = document.querySelector(".context-menu");
-    if (existingMenu) existingMenu.remove();
+  // Eliminar cualquier menú contextual existente
+  const existingMenu = document.querySelector(".context-menu");
+  if (existingMenu) existingMenu.remove();
 
-    const menu = document.createElement("div");
-    menu.className = "context-menu";
+  // Crear el menú
+  const menu = document.createElement("div");
+  menu.className = "context-menu";
 
-    // Crear el menú con sus items primero
-    const pad = this.pads.get(padId);
-    const items = [
-      { text: "Cargar Audio", action: () => this.loadAudioFile(padId) },
-      { text: "Cambiar Color", action: () => this.showColorPicker(padId) },
-      { text: "Cambiar Imagen", action: () => this.loadImageFile(padId) },
-    ];
+  // Obtener el pad y su posición
+  const padElement = document.getElementById(padId);
+  const padRect = padElement.getBoundingClientRect(); // Obtener las dimensiones del pad
 
-    // Si hay un sonido cargado, mostramos su información
-    if (pad.soundInfo) {
-      items.unshift({
-        text: `Sonido: ${pad.soundInfo.name}`,
-        action: () => {},
-        className: "info",
-      });
-    }
+  // Crear los ítems del menú
+  const items = [
+    { text: "Cargar Audio", action: () => this.loadAudioFile(padId) },
+    { text: "Cambiar Color", action: () => this.showColorPicker(padId) },
+    { text: "Cambiar Imagen", action: () => this.loadImageFile(padId) },
+  ];
 
-    // Agregar opción de eliminar audio solo si hay un audio cargado
-    if (pad.audioBuffer) {
-      items.push({
-        text: "Eliminar Audio",
-        action: () => this.removeAudio(padId),
-        className: "danger text-danger",
-      });
-    }
+  const pad = this.pads.get(padId);
 
-    // Agregar opción de eliminar imagen si hay una imagen
-    if (pad.hasImage) {
-      items.push({
-        text: "Eliminar Imagen",
-        action: () => this.removeImage(padId),
-        className: "danger text-danger",
-      });
-    }
-
-    items.forEach((item) => {
-      const menuItem = document.createElement("div");
-      menuItem.className =
-        "context-menu-item" + (item.className ? " " + item.className : "");
-      menuItem.textContent = item.text;
-      menuItem.onclick = () => {
-        item.action();
-        menu.remove();
-      };
-      menu.appendChild(menuItem);
+  // Si hay un sonido cargado, mostrar su información
+  if (pad.soundInfo) {
+    items.unshift({
+      text: `Sonido: ${pad.soundInfo.name}`,
+      action: () => {},
+      className: "info",
     });
-
-    // Agregar el menú al DOM temporalmente para obtener sus dimensiones
-    document.body.appendChild(menu);
-
-    // Obtener las dimensiones del menú y la ventana
-    const menuRect = menu.getBoundingClientRect();
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-
-    // Calcular la posición óptima
-    let xPos = event.clientX;
-    let yPos = event.clientY;
-
-    // Ajustar horizontalmente si el menú se sale de la ventana
-    if (xPos + menuRect.width > windowWidth) {
-      xPos = windowWidth - menuRect.width - 10; // 10px de margen
-    }
-
-    // Ajustar verticalmente si el menú se sale de la ventana
-    if (yPos + menuRect.height > windowHeight) {
-      yPos = windowHeight - menuRect.height - 10; // 10px de margen
-    }
-
-    // Asegurar que el menú no aparezca fuera de la pantalla por la izquierda o arriba
-    xPos = Math.max(10, xPos);
-    yPos = Math.max(10, yPos);
-
-    // Aplicar la posición final
-    menu.style.left = `${xPos}px`;
-    menu.style.top = `${yPos}px`;
   }
+
+  if (pad.audioBuffer) {
+    items.push({
+      text: "Eliminar Audio",
+      action: () => this.removeAudio(padId),
+      className: "danger text-danger",
+    });
+  }
+
+  if (pad.hasImage) {
+    items.push({
+      text: "Eliminar Imagen",
+      action: () => this.removeImage(padId),
+      className: "danger text-danger",
+    });
+  }
+
+  // Agregar los elementos al menú
+  items.forEach((item) => {
+    const menuItem = document.createElement("div");
+    menuItem.className =
+      "context-menu-item" + (item.className ? " " + item.className : "");
+    menuItem.textContent = item.text;
+    menuItem.onclick = () => {
+      item.action();
+      menu.remove();
+    };
+    menu.appendChild(menuItem);
+  });
+
+  // Agregar el menú al DOM
+  document.body.appendChild(menu);
+
+  // Calcular la posición del menú
+  const menuRect = menu.getBoundingClientRect();
+  const padCenterX = padRect.left + padRect.width / 2;
+  const padCenterY = padRect.top + padRect.height / 2;
+
+  // Centrar el menú encima del pad
+  const xPos = padCenterX - menuRect.width / 2;
+  const yPos = padCenterY - menuRect.height / 2;
+
+  // Ajustar para mantenerlo dentro de la ventana
+  menu.style.left = `${Math.max(10, Math.min(window.innerWidth - menuRect.width - 10, xPos))}px`;
+  menu.style.top = `${Math.max(10, Math.min(window.innerHeight - menuRect.height - 10, yPos))}px`;
+}
+
   showColorPicker(padId) {
     const overlay = document.createElement("div");
     overlay.className = "modal-overlay";
